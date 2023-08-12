@@ -1,6 +1,6 @@
 use axum::{extract::MatchedPath, http::Request, routing::get, Router};
 use tower_http::trace::TraceLayer;
-use tracing::info_span;
+use tracing::debug_span;
 
 async fn hello_world() -> &'static str {
     "Hello, world!"
@@ -15,7 +15,7 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
                 .make_span_with(|request: &Request<_>| {
                     let matched_path = request.extensions().get::<MatchedPath>().map(MatchedPath::as_str);
 
-                    info_span!("http_request", method = ?request.method(), matched_path, test_field = tracing::field::Empty)
+                    debug_span!("http_request", method = ?request.method(), matched_path, test_field = tracing::field::Empty)
                 })
         );
 
