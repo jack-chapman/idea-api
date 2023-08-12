@@ -2,7 +2,9 @@ use axum::{extract::MatchedPath, http::Request, routing::get, Router};
 use tower_http::trace::TraceLayer;
 use tracing::debug_span;
 
+#[tracing::instrument(name = "hello_world", level = "debug")]
 async fn hello_world() -> &'static str {
+    tracing::debug!("handling hello world request!");
     "Hello, world!"
 }
 
@@ -18,8 +20,6 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
                     debug_span!("http_request", method = ?request.method(), matched_path, test_field = tracing::field::Empty)
                 })
         );
-
-    tracing::debug!("idea-api started");
 
     Ok(router.into())
 }
