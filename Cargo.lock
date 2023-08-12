@@ -122,6 +122,7 @@ dependencies = [
  "tower",
  "tower-layer",
  "tower-service",
+ "tracing",
 ]
 
 [[package]]
@@ -139,6 +140,7 @@ dependencies = [
  "rustversion",
  "tower-layer",
  "tower-service",
+ "tracing",
 ]
 
 [[package]]
@@ -650,6 +652,9 @@ dependencies = [
  "shuttle-axum",
  "shuttle-runtime",
  "tokio",
+ "tower-http",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
