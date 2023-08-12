@@ -1,7 +1,6 @@
 use axum::{extract::MatchedPath, http::Request, routing::get, Router};
 use tower_http::trace::TraceLayer;
 use tracing::info_span;
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 async fn hello_world() -> &'static str {
     "Hello, world!"
@@ -9,14 +8,6 @@ async fn hello_world() -> &'static str {
 
 #[shuttle_runtime::main]
 async fn axum() -> shuttle_axum::ShuttleAxum {
-    tracing_subscriber::registry()
-        .with(
-            tracing_subscriber::EnvFilter::try_from_default_env()
-                .unwrap_or_else(|_| "idea-api=debug,tower_http=debug,axum::rejection=trace".into()),
-        )
-        .with(tracing_subscriber::fmt::layer())
-        .init();
-
     let router = Router::new()
         .route("/", get(hello_world))
         .layer(
