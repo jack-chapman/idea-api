@@ -3,6 +3,13 @@ name = "idea-api"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "idea-api"
+
 [dependencies]
 axum = {version = "0.6.18", features = ["tracing"]}
 shuttle-axum = "0.23.0"
