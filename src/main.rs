@@ -1,10 +1,11 @@
 use axum::{extract::MatchedPath, http::Request, routing::get, Router};
 use tower_http::trace::TraceLayer;
-use tracing::debug_span;
+use tracing::{debug_span, span, Level};
 
-#[tracing::instrument(name = "hello_world", level = "debug")]
 async fn hello_world() -> &'static str {
-    tracing::debug!("handling hello world request!");
+    let span = span!(Level::INFO, "my_span").entered();
+    tracing::info!("inside the span!");
+    span.exit();
     "Hello, world!"
 }
 
