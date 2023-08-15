@@ -4,6 +4,7 @@ use axum::{
     routing::{get, post},
     Router,
 };
+use sqlx::PgPool;
 use tower_http::trace::TraceLayer;
 use tracing::debug_span;
 
@@ -18,7 +19,7 @@ async fn hello_world() -> &'static str {
     "Hello, world!"
 }
 
-pub fn create_app() -> Router {
+pub fn create_app(pool: PgPool) -> Router {
     let auth_routes = Router::new()
         .route("/register", post(register))
         .route("/sign_in", post(sign_in))
@@ -43,6 +44,7 @@ pub fn create_app() -> Router {
         .nest("/profile", profile_routes)
         .nest("/board", board_routes)
         .nest("/idea", idea_routes)
+        .with_state(pool)
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(|request: &Request<_>| {

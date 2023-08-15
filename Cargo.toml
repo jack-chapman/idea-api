@@ -12,8 +12,14 @@ name = "idea-api"
 
 [dependencies]
 axum = {version = "0.6.18", features = ["tracing"]}
+chrono = { version = "0.4.26", features = ["serde"] }
+serde = { version = "1.0.183", features = ["derive"] }
 shuttle-axum = "0.23.0"
 shuttle-runtime = "0.23.0"
+shuttle-secrets = "0.23.0"
+shuttle-shared-db = { version = "0.23.0", features = ["postgres"] }
+sqlx = { version = "0.7.1", features = ["postgres", "runtime-tokio-native-tls", "macros", "chrono", "json", "uuid"] }
 tokio = "1.28.2"
 tower-http = { version = "0.4.3", features = ["trace"] }
 tracing = "0.1.37"
+uuid = { version = "1.4.1", features = ["serde", "v4", "js"] }
