@@ -13,6 +13,8 @@ name = "idea-api"
 [dependencies]
 axum = {version = "0.6.18", features = ["tracing"]}
 chrono = { version = "0.4.26", features = ["serde"] }
+pbkdf2 = { version = "0.12.2", features = ["simple"]}
+rand = "0.8.5"
 serde = { version = "1.0.183", features = ["derive"] }
 shuttle-axum = "0.23.0"
 shuttle-runtime = "0.23.0"
