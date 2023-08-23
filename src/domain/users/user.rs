@@ -1,16 +1,32 @@
 use serde::{Deserialize, Serialize};
+use sqlx::PgPool;
 
 #[derive(
     Serialize, Deserialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Default, sqlx::FromRow,
 )]
 pub struct User {
-    id: i32,
-    name: String,
-    email: String,
-    password_hash: String,
-    created_at: chrono::DateTime<chrono::Utc>,
+    pub id: i32,
+    pub name: String,
+    pub email: String,
+    pub password_hash: String,
+    pub created_at: Option<chrono::DateTime<chrono::Utc>>,
     #[sqlx(default)]
-    updated_at: chrono::DateTime<chrono::Utc>,
+    pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
     #[sqlx(default)]
-    deleted_at: chrono::DateTime<chrono::Utc>,
+    pub deleted_at: Option<chrono::DateTime<chrono::Utc>>,
+}
+
+pub async fn find_user(pool: &PgPool, email: String) -> Option<User> {
+    sqlx::query_as!(
+        User,
+        r#"
+    SELECT *
+    FROM users
+    WHERE email = $1
+    "#,
+        email
+    )
+    .fetch_one(pool)
+    .await
+    .ok()
 }
